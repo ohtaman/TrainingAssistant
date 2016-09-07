@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import argparse
 from flask import *
 import os, sys
 import json
@@ -23,13 +24,13 @@ pos = 0
 
 @app.route('/')
 def index():
-    
+
     global pos
 
     #正例と負例用のファイル
     global positive
     global negative
-    
+
     positive = open('info.dat', 'a')
     negative = open('bg.txt', 'a')
 
@@ -38,8 +39,8 @@ def index():
     imgnum = len(images)
     count = pos
     counter = ''.join( [ str(pos+1).zfill( len(str(imgnum)) ), ' of ', str(imgnum) ] )
-    
-    return render_template( 'index.html', imgsrc=imgsrc, imgnum=imgnum, count=count, counter=counter ) 
+
+    return render_template( 'index.html', imgsrc=imgsrc, imgnum=imgnum, count=count, counter=counter )
 
 @app.route('/_next')
 def _next():
@@ -47,8 +48,8 @@ def _next():
     global pos
 
     #その画像をスキップするか
-    skip = request.args.get('skip') 
-    
+    skip = request.args.get('skip')
+
     if skip == u'0':
 
         #囲まれた範囲の座標
@@ -68,11 +69,11 @@ def _next():
             s = ''
             for coord in coords:
                 s = '  '.join( [ s, ' '.join( [ str(int(e)) for e in coord ] ) ] )
-            
+
             positive.write('%s  %d%s\n' % (image_path, len(coords), s))
             logf.write( "%s %d%s\n" % (image_path, len(coords), s) )
             logf.flush()
-    
+
     #まだ画像があるか
     if pos+1 >= len(images):
         imgsrc = ""
@@ -86,8 +87,26 @@ def _next():
         imgsrc = os.path.join( image_dir, images[pos+1] )
         pos = pos + 1
 
-    return jsonify( imgsrc=imgsrc, finished=finished, count=pos ) 
+    return jsonify( imgsrc=imgsrc, finished=finished, count=pos )
+
+
+def build_argparser():
+    parser = argparse.ArgumentParser('TrainingAssistant')
+    parser.add_argument(
+        '--port',
+        default=5000,
+        help='port (default: 5000)'
+    )
+    parser.add_argument(
+        '--ip',
+        default='localhost',
+        help='host (default: localhost)'
+    )
+    return parser
 
 if __name__ == '__main__':
+    argparser = build_argparser()
+    args = argparser.parse_args(sys.argv[1:])
+
     app.debug = True
-    app.run()
+    app.run(host=args.ip, port=args.port)
