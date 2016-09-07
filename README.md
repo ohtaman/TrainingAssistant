@@ -1,10 +1,10 @@
 ## Set up
 
-1. Clone to your computer: 
+1. Clone to your computer:
 
 		% git clone git@github.com:shkh/TrainingAssistant.git
 
-2. Add Jcrop: 
+2. Add Jcrop:
 
 		% cd TrainingAssistant
 		% git submodule init
@@ -13,8 +13,8 @@
 		% git checkout master
 
 3. Install python modules
-		
-		% pip install -r freezed.txt
+
+		% pip install -r requiements.txt
 
 4. Add images into `static/img`
 
