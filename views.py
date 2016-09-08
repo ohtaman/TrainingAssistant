@@ -61,7 +61,14 @@ def index(img_dir):
     num_boxes = sum([_[1] for _ in pos]) if pos else 0
 
     if len(remained_images) == 0:
-        return 'Finished! {} images, {} boxes'.format(num_images, num_boxes)
+        return render_template(
+            'index.html',
+            imgdir=img_dir,
+            imgsrc='',
+            imgnum=num_images,
+            count=num_images,
+            counter='{} files, {} boxes'.format(num_images, num_boxes)
+        )
 
     img_path = os.path.join('..', IMAGE_ROOT, img_dir, remained_images[0])
     count = len(processed_images) + 1
@@ -84,14 +91,14 @@ def _next():
     images = get_images(img_dir)
     pos, neg = load_info(img_dir)
     processed_images = set([_[0] for _ in pos + neg])
-    print(processed_images)
     remained_images = [
         img for img in images
         if img not in processed_images
     ]
-    print(remained_images)
-    count = len(processed_images) + 1
+    count = len(processed_images) + 2
     num_boxes = sum([_[1] for _ in pos]) if pos else 0
+    if len(remained_images) == 0:
+        return
     img_file = remained_images[0]
 
     #その画像をスキップするか
@@ -121,7 +128,8 @@ def _next():
 
     print('images: {}, count: {}, boxes: {}'.format(len(images), count, num_boxes))
     #まだ画像があるか
-    if len(images) <= count:
+    if len(images) < count:
+        count = len(images)
         imgsrc = ''
         finished = True
     else:
