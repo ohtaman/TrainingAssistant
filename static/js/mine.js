@@ -8,11 +8,19 @@ onload = function(){
   $('#reset').click(function(){
     resetstatus();
   });
-  $('#skip').click(function(){
-    nextajax(skip=1, imgdir=imgdir);
-  })
+  $('#skip').on('click', function(){
+    var $btn = $(this).button('loading');
+    setTimeout(function() {
+      nextajax(skip=1, imgdir=imgdir);
+      $btn.button('reset')
+    }, 1000);
+  });
   $('#next').live('click', function(){
-    nextajax(skip=0, imgdir=imgdir);
+    var $btn = $(this).button('loading');
+    setTimeout(function(){
+      nextajax(skip=0, imgdir=imgdir);
+      $btn.button('reset')
+    }, 1000);
   });
   $('.bar').css({'width': count*100/imgnum + '%'});
   if (count >= imgnum) {
