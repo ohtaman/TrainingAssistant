@@ -7,12 +7,14 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <script type="text/javascript" src="{{ url_for('static', filename='Jcrop/js/jquery.Jcrop.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Jcrop/css/jquery.Jcrop.css')}}"/>
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/mine.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css')}}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     <script type="text/javascript">
       var imgdir = '{{ imgdir }}';
@@ -46,8 +48,8 @@
         <div align="center" class="container">
           <div class="btn-group">
             <button class="btn btn-info btn-large" id="reset">RESET</button>
-            <button class="btn btn-warning btn-large" id="skip">SKIP</button>
-            <button class="btn btn-success btn-large" id="next">NEXT</button>
+            <button class="btn btn-warning btn-large" id="skip" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Now Processing">SKIP</button>
+            <button class="btn btn-success btn-large" id="next" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Now Processing">NEXT</button>
           </div>
         </div>
       </div>
